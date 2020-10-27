@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 
 import java.sql.Date;
+import java.util.Iterator;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.model.Bill;
+
 import com.example.demo.model.BillDetails;
 import com.example.demo.model.Client;
 import com.example.demo.model.Product;
@@ -38,18 +40,40 @@ public class BillDetailsControllerJpa {
 		return repository.findAll();
 	}
 	
+	@GetMapping("/{id}")
+	public BillDetails getBillsDetailsById(@PathVariable Integer id) {
+		return repository.getById(id);
+	}
+	
 	@PostMapping("/")
-//	public ResponseEntity<Bill> newBillDetails(@RequestBody Bill b) {
-//		try {
-//			if(b.getClient() == null || b.getDate() == null) {
-//				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-//			} else {
-//				return new ResponseEntity<>(repository.save(b), HttpStatus.CREATED);
-//			}
-//		} catch (Exception e) {
-//			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-//		}
-//	}
+	public ResponseEntity<BillDetails> newBillDetails(@RequestBody BillDetails b) {
+		System.out.println("holaaa");
+		try {
+			if(b.getCantidad() == null ||b.getCantidad() >3) {
+				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			} else {
+				System.out.println("si");
+				//obtener cantidad de 
+				
+				Date date= (Date) b.getBill().getDate();
+				Integer idClient= b.getBill().getClient().getIdClient();
+				System.out.println(date);
+				System.out.println(idClient);
+				Iterable<BillDetails>list= repository.getTotalByDateIdClient(date, idClient);
+				Integer cantPrevia=0;
+				Iterator<BillDetails> it= list.iterator();
+				while(it.hasNext()) {
+					cantPrevia+=it.next().getCantidad();
+				}
+				if(cantPrevia + b.getCantidad() >3) {
+					return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+				}
+				return new ResponseEntity<>(repository.save(b), HttpStatus.CREATED);
+			}
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 	
 	@DeleteMapping("/{id}")
 	public  ResponseEntity<String> deleteBillDetails(@PathVariable Integer id) { 

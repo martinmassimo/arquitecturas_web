@@ -39,6 +39,8 @@ public class BillControllerJpa {
 	@PostMapping("/")
 	public ResponseEntity<Bill> newBill(@RequestBody Bill b) {
 		try {
+			//verificar que no tenga mas de 3 
+			
 			if(b.getClient() == null || b.getDate() == null) {
 				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 			} else {
