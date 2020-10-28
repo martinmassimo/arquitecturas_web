@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,11 +34,13 @@ public class BillControllerJpa {
 		this.repository = null;
 	}
 	@GetMapping("/")
+	@CrossOrigin
 	public Iterable<Bill> getBills() {
 		return repository.findAll();
 	}
 	
 	@PostMapping("/")
+	@CrossOrigin
 	public ResponseEntity<Bill> newBill(@RequestBody Bill b) {
 		try {
 			//verificar que no tenga mas de 3 
@@ -53,6 +56,7 @@ public class BillControllerJpa {
 	}
 	
 	@DeleteMapping("/{id}")
+	@CrossOrigin
 	public  ResponseEntity<String> deleteBill(@PathVariable Integer id) { 
 		try {
 			repository.deleteById(id);
@@ -63,6 +67,7 @@ public class BillControllerJpa {
 	}
 	
 	@PutMapping("/")
+	@CrossOrigin
 	public ResponseEntity<Bill> updateBill(@RequestBody Bill b) { 
 		if (repository.existsById(b.getIdBill())) {
 			return new ResponseEntity<>(repository.save(b), HttpStatus.OK);
@@ -72,6 +77,7 @@ public class BillControllerJpa {
 	}
 //	 Obtener por dia y id usuario
 	 @GetMapping("/{date}/{idClient}")
+	 @CrossOrigin
 	    public Iterable<Bill> getBillsByDateAndIdClient(@PathVariable Date date, @PathVariable Integer idClient) {
 		 
 	        return repository.findAllByDateAndIdClient(date, idClient);

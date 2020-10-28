@@ -65,7 +65,7 @@ class LoadDatabase {
         		CSVParser billsCSV = CSVFormat.DEFAULT.withHeader().parse(new FileReader("csv/bills.csv"));
         		for(CSVRecord row: billsCSV) {
         			Client client = clientRepository.getById(Integer.parseInt(row.get("idClient")));
-        			System.out.println("Preloading " + billRepository.save(new Bill(Integer.parseInt(row.get("idBill")),new SimpleDateFormat("yyyy-mm-dd").parse(row.get("date")),client)));
+        			System.out.println("Preloading " + billRepository.save(new Bill(Integer.parseInt(row.get("idBill")),new Date(new SimpleDateFormat("yyyy-mm-dd").parse(row.get("date")).getTime()),client)));
         		}
         	} catch (IOException e) {
         		e.printStackTrace();

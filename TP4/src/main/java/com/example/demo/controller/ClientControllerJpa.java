@@ -24,32 +24,38 @@ public class ClientControllerJpa {
 	}
 
 	@GetMapping("/")
+	@CrossOrigin
 	public Iterable<Client> getClients() {
 		return repository.findAll();
 	}
 
 	@GetMapping("/BySurname/{surname}")
+	@CrossOrigin
 	public Iterable<Client> getClientsBySurname(@PathVariable String surname) {
 		return repository.findAllBySurname(surname);
 	}
 
 	@GetMapping("/ByName/{name}")
+	@CrossOrigin
 	public Iterable<Client> getClientsByName(@PathVariable String name) {
 		return repository.findAllByName(name);
 	}
 
 	@PostMapping("/")
-	public Client newClient(@RequestBody Client c) {
+	@CrossOrigin
+	public Client newClient(Client c) {
 		return repository.save(c);
 	}
 
 	@GetMapping("/{id}")
+	@CrossOrigin
 	Optional<Client> one(@PathVariable Integer id) {
 
 		return repository.findById(id);
 	}
 
 	@PutMapping("/")
+	@CrossOrigin
 	public ResponseEntity<Client> updateClient(@RequestBody Client c) { 
 		if (repository.existsById(c.getIdClient())) {
 			return new ResponseEntity<>(repository.save(c), HttpStatus.OK);
@@ -59,6 +65,7 @@ public class ClientControllerJpa {
 	}
 
 	@DeleteMapping("/{id}")
+	@CrossOrigin
 	public  ResponseEntity<String> deleteClient(@PathVariable Integer id) { 
 		try {
 			repository.deleteById(id);

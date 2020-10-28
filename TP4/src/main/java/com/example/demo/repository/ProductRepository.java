@@ -8,10 +8,10 @@ import com.example.demo.model.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Integer>{
 
-	@Query("SELECT p FROM Product p WHERE p.name = :name")
+	@Query("SELECT p FROM Product p WHERE p.name= :name")
 	public List<Product> findAllByName(String name);
 	
-	@Query("SELECT p FROM Product p WHERE p.idProduct = :id")
+	@Query("SELECT p FROM Product p WHERE p.idProduct= :id")
 	public Product getById(int id);
 
 //	@Query("DELETE FROM Product p WHERE p.idProduct = :id")

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,12 +28,14 @@ public class ProductControllerJpa {
 	}
 	
 	@GetMapping("/")
+	@CrossOrigin
 	public Iterable<Product> getProducts() {
 		return repository.findAll();
 	}
 	
 	@PostMapping("/")
-	public ResponseEntity<Product> newProduct(@RequestBody Product p) {
+	@CrossOrigin
+	public ResponseEntity<Product> newProduct( Product p) {
 		try {
 			if(p.getName() == null || p.getDetails() == null) {
 				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -45,6 +48,7 @@ public class ProductControllerJpa {
 	}
 	
 	@DeleteMapping("/{id}")
+	@CrossOrigin
 	public  ResponseEntity<String> deleteProduct(@PathVariable Integer id) { 
 		try {
 			repository.deleteById(id);
@@ -55,6 +59,7 @@ public class ProductControllerJpa {
 	}
 	
 	@PutMapping("/")
+	@CrossOrigin
 	public ResponseEntity<Product> updateProducto(@RequestBody Product p) { 
 		if (repository.existsById(p.getIdProduct())) {
 			return new ResponseEntity<>(repository.save(p), HttpStatus.OK);
