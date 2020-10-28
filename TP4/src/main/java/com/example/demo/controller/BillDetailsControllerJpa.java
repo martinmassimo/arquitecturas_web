@@ -44,6 +44,14 @@ public class BillDetailsControllerJpa {
 	public BillDetails getBillsDetailsById(@PathVariable Integer id) {
 		return repository.getById(id);
 	}
+	@GetMapping("/sales")
+	public Iterable<Object> getSales() {
+		return repository.getSales();
+	}
+	@GetMapping("/bestSeller")
+	public Object getBestSeller() {
+		return repository.getBestSeller().iterator().next();
+	}
 	
 	@PostMapping("/")
 	public ResponseEntity<BillDetails> newBillDetails(@RequestBody BillDetails b) {
@@ -52,22 +60,23 @@ public class BillDetailsControllerJpa {
 			if(b.getCantidad() == null ||b.getCantidad() >3) {
 				return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 			} else {
-				System.out.println("si");
-				//obtener cantidad de 
-				
-				Date date= (Date) b.getBill().getDate();
-				Integer idClient= b.getBill().getClient().getIdClient();
-				System.out.println(date);
-				System.out.println(idClient);
-				Iterable<BillDetails>list= repository.getTotalByDateIdClient(date, idClient);
-				Integer cantPrevia=0;
-				Iterator<BillDetails> it= list.iterator();
-				while(it.hasNext()) {
-					cantPrevia+=it.next().getCantidad();
-				}
-				if(cantPrevia + b.getCantidad() >3) {
-					return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-				}
+//				System.out.println("si");
+//				//obtener cantidad de 
+//				BillDetails b1=b;
+//				System.out.println(b1);
+//				Date date= (Date) b1.getBill().getDate();
+//				Integer idClient= b1.getBill().getClient().getIdClient();
+//				System.out.println(b1.getBill().getDate());
+//				System.out.println(idClient);
+//				Iterable<BillDetails>list= repository.getTotalByDateIdClient(date, idClient);
+//				Integer cantPrevia=0;
+//				Iterator<BillDetails> it= list.iterator();
+//				while(it.hasNext()) {
+//					cantPrevia+=it.next().getCantidad();
+//				}
+//				if(cantPrevia + b1.getCantidad() >3) {
+//					return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+//				}
 				return new ResponseEntity<>(repository.save(b), HttpStatus.CREATED);
 			}
 		} catch (Exception e) {
@@ -99,4 +108,6 @@ public class BillDetailsControllerJpa {
 //		 
 //	        return repository.findAllByDateAndIdClient(date, idClient);
 //	 }
+	
+	
 }

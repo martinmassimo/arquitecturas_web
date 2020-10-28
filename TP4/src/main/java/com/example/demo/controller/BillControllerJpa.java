@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Bill;
+import com.example.demo.model.BillDetails;
 import com.example.demo.model.Client;
 import com.example.demo.model.Product;
 import com.example.demo.repository.BillRepository;
